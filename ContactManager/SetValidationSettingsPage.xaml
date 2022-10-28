@@ -1,0 +1,75 @@
+﻿<Page x:Class="ContactManager.SetValidationSettingsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:ContactManager"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="SetValidationSettingsPage">
+
+    <Page.Resources>
+        <local:ValidationConverter x:Key="validationConverter"/>
+    </Page.Resources>
+
+    <Grid>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="50"></RowDefinition>
+            <RowDefinition Height="50"></RowDefinition>
+            <RowDefinition Height="50"></RowDefinition>
+            <RowDefinition Height="50"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <Label Content="Validation Settings" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" 
+               FontSize="30" FontWeight="Bold" VerticalContentAlignment="Top" HorizontalAlignment="Center"></Label>
+
+        <Label Content="Name validation:" Grid.Row="1" Grid.Column="0" Style="{StaticResource labelStyleSetValidationSettingsPage}" ></Label>
+        <Label Content="Surname validation:" Grid.Row="2" Grid.Column="0" Style="{StaticResource labelStyleSetValidationSettingsPage}"></Label>
+        <Label Content="E-Mail validation:" Grid.Row="3" Grid.Column="0" Style="{StaticResource labelStyleSetValidationSettingsPage}"></Label>
+        <Label Content="Phone validation:" Grid.Row="4" Grid.Column="0" Style="{StaticResource labelStyleSetValidationSettingsPage}"></Label>
+
+        <ComboBox Name="NameValidationCombobox" Grid.Row="1" Grid.Column="1" Margin="0,10.2,155,10.2" 
+                  VerticalContentAlignment="Center" FontSize="18"
+                  ItemsSource="{StaticResource ValidationListString}" 
+                  DisplayMemberPath="ValueString" 
+                  SelectedValuePath="ValueString" 
+                  SelectedValue="{Binding Choice, Mode=TwoWay}">
+        </ComboBox>
+
+        <ComboBox Name="SurnameValidationCombobox" Grid.Row="2" Grid.Column="1" Margin="0,10.2,155,10.2"
+                  VerticalContentAlignment="Center" FontSize="18"
+                  ItemsSource="{StaticResource ValidationListString}" 
+                  DisplayMemberPath="ValueString" 
+                  SelectedValuePath="ValueString" 
+                  SelectedValue="{Binding Choice, Mode=TwoWay}">
+        </ComboBox>
+
+        <ComboBox Name="EMailValidationCombobox" Grid.Row="3" Grid.Column="1" Margin="0,10.2,155,10.2"
+                  VerticalContentAlignment="Center" FontSize="18" 
+                  ItemsSource="{StaticResource ValidationListString}" 
+                  DisplayMemberPath="ValueString" 
+                 SelectedValuePath="ValueString" 
+                  SelectedValue="{Binding Choice, Mode=TwoWay}">
+        </ComboBox>
+
+        <ComboBox Name="PhoneValidationCombobox" Grid.Row="4" Grid.Column="1" Margin="0,10.2,155,10.2"
+                  VerticalContentAlignment="Center" FontSize="18" 
+                  ItemsSource="{StaticResource ValidationListString}" 
+                  DisplayMemberPath="ValueString" 
+                  SelectedValuePath="ValueString" 
+                  SelectedValue="{Binding Choice, Mode=TwoWay}"/>
+  
+        <Button x:Name="LockValidationSettingsButton" Content="Lock Validation Settings" 
+                Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,9.8,261,9.8" HorizontalAlignment="Right" 
+                Width="278" Height="40" Click="LockValidationSettingsButton_Click" />
+
+    </Grid>
+</Page>

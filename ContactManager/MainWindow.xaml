@@ -1,0 +1,150 @@
+﻿<Window x:Class="ContactManager.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ContactManager"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="600" Width="800" MinHeight="500" MaxHeight="500"
+        WindowStartupLocation="CenterScreen">
+
+    <Window.Resources>
+
+        <local:DisplayConverter x:Key="displayConvert"/>
+        <local:ImageConverter x:Key="imageConverter"/>
+
+        <Style x:Key="alternatingWithTriggers" TargetType="{x:Type ListViewItem}">
+
+            <Setter Property="ContentTemplate" >
+                <Setter.Value>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock FontSize="18" Height="60" Grid.Column="0" Text="{Binding Name}"/>
+                            <TextBlock FontSize="18" Height="60" Margin="4,0,0,0" Grid.Column="1" Text="{Binding Surname}"/>
+                            <Image x:Name="image" Source="{Binding Path=Gender, Converter={StaticResource imageConverter}}" 
+                                           Width="60" Height="60" Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                        </Grid>
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
+
+            <Style.Triggers>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="ContentTemplate">
+                        <Setter.Value>
+                            <DataTemplate>
+                                <Grid Background="#FFFDCF6C">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"></RowDefinition>
+                                        <RowDefinition Height="*"></RowDefinition>
+                                    </Grid.RowDefinitions>
+                                    <TextBlock FontSize="18" Height="60" Grid.Column="0" Grid.Row="0" 
+                                               Text="{Binding Name}"/>
+                                    <TextBlock FontSize="18" Height="60" Margin="4,0,0,0" Grid.Column="1" Grid.Row="0" 
+                                               Text="{Binding Surname}"/>
+                                    <Image x:Name="image" Source="{Binding Path=Gender, Converter={StaticResource imageConverter}}" 
+                                           Width="60" Height="60" Grid.Column="2" Grid.Row="0" Grid.RowSpan="3" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+
+                                    <Grid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
+
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="50"></ColumnDefinition>
+                                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="20"></RowDefinition>
+                                            <RowDefinition Height="20"></RowDefinition>
+                                        </Grid.RowDefinitions>
+
+                                        <TextBlock FontSize="10" Height="20" Margin="0,0,0,0" Grid.Column="1" Grid.Row="0" 
+                                               Text="{Binding EMail}"/>
+                                        <TextBlock FontSize="10" Height="20" Margin="0,0,0,0" Grid.Column="1" Grid.Row="1" 
+                                               Text="{Binding PhoneNumber}"/>
+                                        <TextBlock FontSize="10" Height="20" Margin="0,0,0,0" Grid.Column="0" Grid.Row="0" 
+                                               Text="E-Mail:" FontWeight="Bold"/>
+                                        <TextBlock FontSize="10" Height="20" Margin="0,0,0,0" Grid.Column="0" Grid.Row="1" 
+                                               Text="Phone:" FontWeight="Bold"/>
+
+                                    </Grid>
+                                </Grid>
+                            </DataTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+
+                <Trigger Property="ListView.AlternationIndex" Value="0">
+                    <Setter Property="Background" Value="#FFAFC5FF"/>
+                </Trigger>
+
+                <Trigger Property="ListView.AlternationIndex" Value="1">
+                    <Setter Property="Background" Value="#FF75A1FF"/>
+                </Trigger>
+
+                <DataTrigger Binding="{Binding}" Value="{x:Static CollectionView.NewItemPlaceholder}">
+                    <Setter Property="UIElement.Visibility" Value="Collapsed"/>
+                </DataTrigger>
+
+            </Style.Triggers>
+
+        </Style>
+
+    </Window.Resources>
+
+    <Grid>
+        <DockPanel>
+            <Menu DockPanel.Dock="Top">
+                <MenuItem Header="File">
+                    <MenuItem Name="ImportContacts" Header="Import" Click="ImportContacts_Click"/>
+                    <MenuItem Name="ExportContacts" Header="Export"  Click="ExportContacts_Click"/>
+                    <Separator />
+                    <MenuItem Header="Exit" Click="Exit_Click"/>
+                </MenuItem>
+
+                <MenuItem Header="Contacts">
+                    <MenuItem Header="Add contact" Click="Add_Click"/>
+                    <MenuItem Header="Clear contacts" Click="Clear_Click"/>
+                </MenuItem>
+                <MenuItem Header="About" Click="About_Click"/>
+
+            </Menu>
+            <TabControl x:Name="TabContol">
+                <TabItem Header="List">
+
+                    <ListView x:Name="contacts" ItemsSource="{Binding}"
+                              HorizontalContentAlignment="Stretch" VerticalContentAlignment="Center"  
+                              ItemContainerStyle="{StaticResource alternatingWithTriggers}" AlternationCount="2">
+
+                        <ListView.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Header="Delete" Click="Delete_Click"></MenuItem>
+                            </ContextMenu>
+                        </ListView.ContextMenu>
+
+                    </ListView>
+
+                </TabItem>
+                
+                <TabItem Header="Grid" >
+                    <DataGrid ItemsSource="{Binding}" CanUserAddRows ="True" AutoGenerateColumns="True"/>
+                </TabItem>
+                
+                <TabItem Header="Validation Settings">
+                    <Frame Source="UnlockValidationSettingsPage.xaml" NavigationUIVisibility="Hidden"/>
+                </TabItem>
+
+            </TabControl>
+        </DockPanel>
+    </Grid>
+</Window>

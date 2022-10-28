@@ -1,0 +1,103 @@
+﻿<Window x:Class="ContactManager.AddContactWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ContactManager" xmlns:local1="clr-namespace:ContactManager;assembly=PhoneValidationRule" xmlns:local2="clr-namespace:ContactManager;assembly=LengthValidationRule" xmlns:local3="clr-namespace:ContactManager;assembly=EMailValidationRule"
+        mc:Ignorable="d"
+        Title="AddContactWindow" Height="380" Width="480" ResizeMode="NoResize" WindowStartupLocation="CenterOwner"
+         WindowStyle="None">
+
+    <Window.DataContext>
+        <local:ValidationValuesClass/>
+    </Window.DataContext>
+
+    <Border BorderBrush="Black" BorderThickness="5">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="60"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="60"></RowDefinition>
+            </Grid.RowDefinitions>
+
+            <Label Content="Add new contact" Style="{StaticResource addNewContactWindowLabelStyle}"
+               Grid.Column="0" Grid.ColumnSpan="2"></Label>
+
+            <Label Content="Name:" Grid.Row="1" Grid.Column="0" Style="{StaticResource labelStyle}"></Label>
+            <Label Content="Surname:" Grid.Row="2" Grid.Column="0" Style="{StaticResource labelStyle}"></Label>
+            <Label Content="E-Mail:" Grid.Row="3" Grid.Column="0" Style="{StaticResource labelStyle}"></Label>
+            <Label Content="Phone:" Grid.Row="4" Grid.Column="0" Style="{StaticResource labelStyle}"></Label>
+            <Label Content="Gender:" Grid.Row="5" Grid.Column="0" Style="{StaticResource labelStyle}"></Label>
+
+            <TextBox x:Name="AddWindowName" Grid.Row="1" Grid.Column="1" BorderThickness="2"
+                     Margin="38.8,11,44.6,10.4" Height="29" VerticalContentAlignment="Center"
+                     Validation.ErrorTemplate="{StaticResource errorTemplate}">
+                <TextBox.Text>
+                    <Binding Path="Name" ValidatesOnDataErrors="True" UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <local2:LengthValidationRule></local2:LengthValidationRule>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox >
+            
+            <TextBox x:Name="AddWindowSurname" Grid.Row="2" Grid.Column="1" BorderThickness="2" 
+                     Margin="38.8,10.6,44.6,10.8" Height="29" VerticalContentAlignment="Center"
+                     Validation.ErrorTemplate="{StaticResource errorTemplate}">
+                <TextBox.Text>
+                    <Binding Path="Surname" ValidatesOnDataErrors="True" UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <local2:LengthValidationRule></local2:LengthValidationRule>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox >
+            
+            <TextBox x:Name="AddWindowEMail" Grid.Row="3" Grid.Column="1" BorderThickness="2" 
+                     Margin="38.8,11.2,44.6,11.2" Height="28" VerticalContentAlignment="Center"
+                     Validation.ErrorTemplate="{StaticResource errorTemplate}">
+                <TextBox.Text>
+                    <Binding Path="EMail" ValidatesOnDataErrors="True" UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <local3:EMailValidationRule></local3:EMailValidationRule>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox >
+            
+            <TextBox x:Name="AddWindowPhone" Grid.Row="4" Grid.Column="1" BorderThickness="2" 
+                     Margin="38.8,10.8,44.6,10.8" Height="28" VerticalContentAlignment="Center"
+                     Validation.ErrorTemplate="{StaticResource errorTemplate}">
+                <TextBox.Text>
+                    <Binding Path="Phone" ValidatesOnDataErrors="True" UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <local1:PhoneValidationRule></local1:PhoneValidationRule>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox >
+            
+            <ComboBox Grid.Column="1" Grid.Row="5" SelectedIndex="0" Style="{StaticResource addContactWindowComboBoxStyle}" 
+                      Height="29" Margin="38.8,10.2,44.4,10.4" Width="152" Name="AddContactWindowGender" BorderThickness="2">
+                <ComboBoxItem Name="addContactWindowComboBoxItemMale"  Content="Male"></ComboBoxItem>
+                <ComboBoxItem Name="addContactWindowComboBoxItemFemale" Content="Female"></ComboBoxItem>
+            </ComboBox>
+
+            <Button Grid.Column="0" Grid.Row="6" Content="Add Contact" Style="{StaticResource ButtonStyle}" 
+                    Name="AddContactButton" Height="40" Margin="0,9.6,25.2,10.4" Width="143" Click="AddContactButton_Click" 
+                    HorizontalAlignment="Right"></Button>
+            <Button Grid.Column="1" Grid.Row="6" Content="Cancel" Style="{StaticResource ButtonStyle}" 
+                    Name="CancelButton" Click="CancelButton_Click" Height="40" Margin="25.8,9.6,0,10.4" 
+                    Width="142" HorizontalAlignment="Left"></Button>
+
+        </Grid>
+    </Border>
+</Window>
